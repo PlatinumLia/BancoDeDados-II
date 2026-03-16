@@ -166,5 +166,46 @@ INSERT INTO planetas VALUES
 (49,'Bajor',3500000,50,1),
 (50,'Arrakis',1000000,1,13);
 
-INSERT INTO satelites (nome, diametro, idplaneta, habitavel) VALUES
-('NovaLua', 2100, 2, false);
+INSERT INTO estrelas (nome, tamanho, idGalaxia) VALUES
+('Sol', 1391000, 1),
+('AlphaCentauriA', 1220000, 1),
+('AlphaCentauriB', 860000, 1),
+('Betelgeuse', 1200000000, 2),
+('Rigel', 78000000, 2),
+('Sirius', 2400000, 1),
+('Vega', 2300000, 3),
+('Antares', 883000000, 4),
+('Polaris', 44000000, 5),
+('Deneb', 203000000, 6),
+('Altair', 1800000, 7),
+('Procyon', 2000000, 8),
+('Arcturus', 36000000, 9),
+('Capella', 12000000, 10),
+('Spica', 7500000, 11),
+('Aldebaran', 61000000, 12),
+('Regulus', 4000000, 13),
+('Castor', 2400000, 14),
+('Pollux', 8900000, 15),
+('Fomalhaut', 1700000, 16);
+
+INSERT INTO satelites (nome, idPlaneta, diametro) VALUES
+('Lua', 1, 3474),
+('Fobos', 37, 22),
+('Deimos', 37, 12),
+('Io', 39, 3643),
+('Europa', 39, 3122),
+('Ganimedes', 39, 5268),
+('Calisto', 39, 4820),
+('Titã', 39, 5150),
+('Encélado', 39, 504),
+('Mimas', 39, 396),
+('Reia', 39, 1528),
+('Dione', 39, 1123),
+('Tétis', 39, 1062),
+('Hipérion', 39, 270),
+('Japeto', 39, 1469),
+('Caronte', 40, 1212),
+('Nix', 40, 49),
+('Hidra', 40, 43),
+('Kerberos', 40, 19),
+('Estige', 40, 16);
