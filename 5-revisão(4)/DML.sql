@@ -165,3 +165,6 @@ INSERT INTO planetas VALUES
 (48,'OcampaPrime',200000,49,1),
 (49,'Bajor',3500000,50,1),
 (50,'Arrakis',1000000,1,13);
+
+INSERT INTO satelites (nome, diametro, idplaneta, habitavel) VALUES
+('NovaLua', 2100, 2, false);
