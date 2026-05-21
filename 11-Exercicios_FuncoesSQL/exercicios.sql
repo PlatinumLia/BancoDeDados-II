@@ -85,12 +85,14 @@ SELECT inversor('Mugetsu');
 CREATE OR REPLACE FUNCTION saudacao_turno(p_data_hora TIMESTAMP)
 RETURNS VARCHAR
 LANGUAGE plpgsql AS $$
-DECLARE hora INTEGER;
+DECLARE 
+    v_hora INTEGER;
 BEGIN
-    hora := EXTRACT(HOUR FROM p_data_hora);
-    IF hora >= 6  AND hora < 12 THEN
+    v_hora := EXTRACT(HOUR FROM p_data_hora);
+    
+    IF v_hora >= 6  AND v_hora < 12 THEN
         RETURN 'BOM DIA';
-    ELSIF hora >= 12 AND hora < 18 THEN
+    ELSIF v_hora >= 12 AND v_hora < 18 THEN
         RETURN 'BOA TARDE';
     ELSE 
         RETURN 'BOA NOITE';
@@ -102,60 +104,103 @@ SELECT saudacao_turno('2019-10-09 19:40:00');
 
 /* Exercício 6: */
 CREATE OR REPLACE FUNCTION somar_pares(p_num1 INTEGER, p_num2 INTEGER)
-RETURNS INTEGER AS $$
+RETURNS INTEGER
+LANGUAGE plpgsql AS $$
 DECLARE 
-    resultado INTEGER := 0;
+    v_resultado INTEGER := 0;
 BEGIN
     IF p_num1 < p_num2 THEN
         FOR i IN p_num1..p_num2 LOOP
             IF (i % 2) = 0 THEN 
-                resultado := resultado + i;
+                v_resultado := v_resultado + i;
             END IF;
         END LOOP;
     ELSE
         FOR i IN p_num2..p_num1 LOOP
             IF (i % 2) = 0 THEN 
-                resultado := resultado + i;
+                v_resultado := v_resultado + i;
             END IF;
         END LOOP;
     END IF;
-    RETURN resultado;
+
+    RETURN v_resultado;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 SELECT somar_pares(20 , 100);
 
 /* Exercício 7: */
 CREATE OR REPLACE FUNCTION validar_email(p_email VARCHAR(80))
-RETURNS TEXT AS $$
+RETURNS VARCHAR(50)
+LANGUAGE plpgsql AS $$;
 BEGIN
     IF POSITION('@' IN p_email) > 0 AND POSITION('.' IN SUBSTRING(p_email FROM POSITION('@' IN p_email))) > 0 THEN
-        RETURN 'VALIDO';
+        RETURN 'VÁLIDO';
     ELSE    
-        RETURN 'INVALIDO';
+        RETURN 'INVÁLIDO';
     END IF;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 SELECT validar_email('mugetsu@gmail.com');
 
 /* Exercício 8: */
 CREATE OR REPLACE FUNCTION contador_vogais(p_texto TEXT)
-RETURNS INTEGER AS $$
+RETURNS INTEGER
+LANGUAGE plpgsql AS $$
 DECLARE 
-    qtde INTEGER := 0;
-    caractere CHAR;
+    v_qtde INTEGER := 0;
+    v_caractere CHAR;
 BEGIN
     FOR i IN 0..LENGTH(p_texto) LOOP
-        caractere := SUBSTRING(p_texto FROM i FOR 1);
+        v_caractere := SUBSTRING(p_texto FROM i FOR 1);
 
-        IF caractere = 'a' OR caractere = 'e' OR caractere = 'i' OR caractere = 'o' OR caractere = 'u' THEN
-            qtde := qtde + 1;
+        IF v_caractere = 'a' OR v_caractere = 'e' 
+                             OR v_caractere = 'i' 
+                             OR v_caractere = 'o' 
+                             OR v_caractere = 'u' THEN
+            v_qtde := v_qtde + 1;
         END IF;
     END LOOP;
 
-    RETURN qtde;
+    RETURN v_qtde;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 SELECT contador_vogais('Mutsuki');
+
+/* Exercício 9: */
+CREATE OR REPLACE FUNCTION classificar_dias(p_data DATE)
+RETURNS VARCHAR(80)
+LANGUAGE plpgsql AS $$
+DECLARE 
+    v_num_dia INTEGER := 0;
+BEGIN
+    v_num_dia := EXTRACT(DOW FROM p_data);
+    
+    IF v_num_dia > 0 AND v_num_dia < 6 THEN
+        RETURN 'DIA UTIL';
+    ELSE
+        RETURN 'FIM DE SEMANA';
+    END IF;
+END;
+$$;
+
+SELECT classificar_dias('2026-05-20');
+
+/* Exercício 10: */
+CREATE OR REPLACE FUNCTION codigo_matricula(p_nome VARCHAR(80), p_data DATE)
+RETURNS VARCHAR
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_matricula VARCHAR(80);
+BEGIN
+    v_matricula := UPPER(SUBSTRING(p_nome FROM 1 FOR 3)) 
+                         || EXTRACT(YEAR FROM P_data) :: VARCHAR 
+                         || LENGTH(p_nome) :: VARCHAR;
+    
+    RETURN v_matricula;
+END;
+$$;
+
+SELECT codigo_matricula('Lia', '2006-10-27');
