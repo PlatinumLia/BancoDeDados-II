@@ -16,7 +16,7 @@ DECLARE
     -- variáveis
     v_valor_parcela NUMERIC(7, 2);
     v_data_vencimento DATE;
-    
+    -- finalizar em outro momento
 BEGIN
 
 END;
